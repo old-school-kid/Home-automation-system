@@ -1,0 +1,37 @@
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(0, 1);
+char state = 0;
+void setup()
+{
+  Serial.begin(9600);
+  BTSerial.begin(38400); //Hc-05 default UART
+  pinMode (5, OUTPUT);
+  pinMode (6, OUTPUT);   
+}
+
+
+void loop() {
+  if(BTSerial.available() > 0){    
+      state = BTSerial.read();  // reads data sent through bluetooth 
+      flag=0;
+      if (state == 'A'){
+        digitalWrite(5, HIGH);
+      Serial.println ("bulb on");
+      }
+          if (state == 'B'){
+      Serial.println ("bulb off");
+      digitalWrite (5,LOW);
+          }
+            if (state == 'C'){
+      Serial.println ("fan on");
+      digitalWrite(6, HIGH);
+            }
+            if (state == 'D'){
+      Serial.println ("fan off");
+     digitalWrite(6,LOW);
+            }
+   Serial.println(state);
+   delay (500);
+
+  }
+}
